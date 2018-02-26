@@ -1,0 +1,23 @@
+<meta charset="utf-8"/>
+<script>
+    var lian= {};
+    lian.paobing = function(pao_num){
+        //更详细
+        alert(pao_num+'炮'+'开始战斗');
+    }
+    lian.bubing = function (buping_num) {
+        alert(buping_num+'人'+'开始战斗');
+    }
+    lian.lianzhang = function (mingling) {
+        lian[mingling.type](mingling.num);
+    }
+    //总司令开始发令
+    lian.lianzhang({
+        type:'paobing',
+        num:100
+    });
+    lian.lianzhang({
+        type:'bubing',
+        num:500
+    });
+</script>
