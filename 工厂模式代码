@@ -1,0 +1,73 @@
+<meta charset="utf-8"/>
+<script>
+    //1,工厂应该有厂长 来决定运行到底哪条产品线
+    //消费者 ->> 子类
+    var gongchang = {};
+    gongchang.chanyifu = function (argument) {
+        this.gongren = 50;
+        // alert('我们有' + this.gongren);
+    };
+    gongchang.chanxie = function () {
+        alert('产鞋子');
+    };
+    gongchang.yunshu = function () {
+        alert('运输');
+    };
+    gongchang.changzhang = function (para) {
+        //new js我们说了 构造函数模式 单列模式
+        return new gongchang[para]();
+    };
+    var me = gongchang.changzhang('chanyifu');
+    alert(me.gongren);
+</script>
+
+
+//这是一个简单工厂模式
+var XMLHttpFactory = function(){
+
+};
+XMLHttpFactory.createXMLHttp = function(){
+    var XMLHttp = null;
+    //XMLHttpFactory.createXMLHttp()这个方法根据当前环境的具体情况返回一个XHR对象。
+    if(window.XMLHttpRequest){
+        XMLHttp = new XMLHttpRequest()
+    }
+    elseif(window.ActiveXObject){
+        XMLHttp = new ActiveXObject('Microsoft.XMLHTTP')
+    }
+    return XMLHttp;
+};
+var AjaxHander = function(){
+    var XMLHttp = XMLHttpFactory.createXMLHttp();
+    /*...具体的操作...*/
+}
+
+
+
+//这是一个抽象工厂模式
+var XMLHttpFactory = function(){
+
+};
+XMLHttpFactory.prototype = {
+    //如果真的要调用这个方法会跑出一个错误，它不能被实例化，只能用来派生子类
+    createFactory: function(){
+        throw new Error('This is an abstract class');
+    }
+}   //派生子类，继承的模式，不明白可以去参考原理
+
+var XHRHandler = function(){
+    XMLHttpFactory.call(this);
+};
+XHRHandler.prototype = new XMLHttpFactory();
+XHRHandler.prototype.constructor = XHRHandler;      //重新定义createFactory方法
+
+XHRHandler.prototype.createFactory = function(){
+    var XMLHttp = null;
+    if(window.XMLHttpRequest){
+        XMLHttp = new XMLHttpRequest()
+    }
+    elseif(window.ActiveXObject){
+        XMLHttp = new ActiveXObject('Microsoft.XMLHTTP')
+    }
+    return XMLHttp;
+}
